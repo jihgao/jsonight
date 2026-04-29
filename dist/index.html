@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSONight</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toolbar">
+    <div id="toolbar-actions">
+      <button id="btn-format" title="Format JSON (Ctrl+Shift+F)" class="toolbar-btn">Format</button>
+      <button id="btn-minify" title="Minify JSON (Ctrl+Shift+M)" class="toolbar-btn">Minify</button>
+      <button id="btn-parse-python" title="Parse Python Dict (Ctrl+Shift+P)" class="toolbar-btn">Python Dict</button>
+      <button id="btn-clipboard" title="Copy to Clipboard" class="toolbar-btn">Copy</button>
+    </div>
+    <div id="toolbar-status">
+      <span id="validation-badge">Valid</span>
+    </div>
+  </div>
+  <div id="container">
+    <div id="editor-pane">
+      <div id="line-numbers"></div>
+      <textarea id="editor" spellcheck="false" placeholder="Paste JSON or Python dict here..."></textarea>
+    </div>
+    <div id="divider"></div>
+    <div id="preview-pane">
+      <div id="preview"></div>
+    </div>
+  </div>
+  <div id="drag-overlay"></div>
+  <div id="status-bar">
+    <span id="status-file">Untitled</span>
+    <span id="status-info">Ln 1, Col 1</span>
+    <span id="status-words">0 bytes</span>
+  </div>
+  <script src="editor.js"></script>
+</body>
+</html>

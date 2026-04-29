@@ -1,0 +1,12 @@
+{
+  "name": "jsonight",
+  "version": "1.0.0",
+  "description": "JSON editor with Python dict parsing",
+  "scripts": {
+    "dev": "cargo tauri dev",
+    "build": "cargo tauri build"
+  },
+  "keywords": ["json", "editor", "tauri"],
+  "author": "",
+  "license": "MIT"
+}
