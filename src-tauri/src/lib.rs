@@ -1,13 +1,51 @@
 use tauri::{menu::{Menu, MenuItem, PredefinedMenuItem, Submenu}, Manager};
+use tauri_plugin_log::{Target, TargetKind};
+use std::path::PathBuf;
+
+fn log_dir() -> PathBuf {
+    dirs::home_dir()
+        .unwrap_or_default()
+        .join("Library")
+        .join("Logs")
+        .join("com.jsonight.editor")
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let _ = std::fs::create_dir_all(log_dir());
+    eprintln!("[JSONight] === Starting ===");
+    eprintln!("[JSONight] Platform: {} {}", std::env::consts::OS, std::env::consts::ARCH);
+    eprintln!("[JSONight] Log dir: {:?}", log_dir());
+
+    eprintln!("[JSONight] Initializing log plugin...");
+    let log_plugin = tauri_plugin_log::Builder::default()
+        .targets([
+            Target::new(TargetKind::Stdout),
+            Target::new(TargetKind::Stderr),
+            Target::new(TargetKind::Folder {
+                path: log_dir(),
+                file_name: None,
+            }),
+        ])
+        .level(log::LevelFilter::Debug)
+        .build();
+
+    eprintln!("[JSONight] Initializing dialog plugin...");
+    eprintln!("[JSONight] Initializing fs plugin...");
+    eprintln!("[JSONight] Initializing shell plugin...");
+    eprintln!("[JSONight] Building Tauri app...");
+
     tauri::Builder::default()
+        .plugin(log_plugin)
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_log::Builder::new().build())
         .setup(|app| {
+            log::debug!("[JSONight] Entering setup");
+            let handle = app.handle();
+            log::debug!("[JSONight] App identifier: {}", handle.config().identifier);
+            log::debug!("[JSONight] App version: {:?}", handle.config().version);
+
             let file_menu = Submenu::with_items(
                 app, "File", true,
                 &[
@@ -76,6 +114,8 @@ pub fn run() {
 
             let menu = Menu::with_items(app, &[&file_menu, &edit_menu, &tools_menu, &view_menu])?;
             app.set_menu(menu)?;
+            log::debug!("[JSONight] Menu set successfully");
+            log::debug!("[JSONight] Setup complete");
             Ok(())
         })
         .on_menu_event(|app, event| {

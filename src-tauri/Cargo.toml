@@ -24,6 +24,8 @@ tauri-plugin-dialog = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-shell = "2"
 tauri-plugin-log = "2"
+dirs = "5"
+log = "0.4"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
